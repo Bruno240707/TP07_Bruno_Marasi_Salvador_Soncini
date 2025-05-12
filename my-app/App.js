@@ -1,25 +1,78 @@
 import { StatusBar } from 'expo-status-bar';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { ImageBackground, SafeAreaView, StyleSheet, Text, TouchableOpacity, View, TextInput, Pressable } from 'react-native';
+import Entypo from '@expo/vector-icons/Entypo';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
 
 const ImagenExterna = {uri: "https://images.unsplash.com/photo-1746645012316-39ef59320d9b?q=80&w=1976&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 const ImagenExternaPerfil = {uri: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"}
 
+// Keep the splash screen visible while we fetch resources
+/*SplashScreen.preventAutoHideAsync();
+
+// Set the animation options. This is optional.
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});*/
+
 export default function App() {
 
+  //const [appIsReady, setAppIsReady] = useState(false);
   const [textInput, setTextInput] = useState("")
-  const [colorTexto, setColorTexto] = useState("white")
+  const [styleTexto, setStyleTexto] = useState("text")
+
+ /* useEffect(() => {
+    async function prepare() {
+      try {
+        // Pre-load fonts, make any API calls you need to do here
+        await Font.loadAsync(Entypo.font);
+        // Artificially delay for two seconds to simulate a slow loading
+        // experience. Remove this if you copy and paste the code!
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        // Tell the application to render
+        setAppIsReady(true);
+      }
+    }
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(() => {
+    if (appIsReady) {
+      // This tells the splash screen to hide immediately! If we call this after
+      // `setAppIsReady`, then we may see a blank screen while the app is
+      // loading its initial state and rendering its first pixels. So instead,
+      // we hide the splash screen once we know the root view has already
+      // performed layout.
+      SplashScreen.hide();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
+  */
 
   const changeText = (e) => {
     setTextInput(e)
   }
 
   const alertaTexto = () =>{
-    alert(textInput)
+    if(textInput == ""){
+      alert("Debe ingresar algo")
+    } else {
+      alert(textInput)
+    }
   }
 
   const cambiarColorTexto = () =>{
-    setColorTexto(color => (color == 'white' ? 'yellow' : 'white'))
+    setStyleTexto(style => (style == 'text' ? 'text2' : 'text'))
   }
 
   return (
@@ -27,25 +80,30 @@ export default function App() {
     <SafeAreaView style={styles.container}>
       <StatusBar style="light" translucent backgroundColor="transparent"/>
       <ImageBackground source={ImagenExterna} style={styles.backgroundPrin}>
+
+      <View style={styles.contenedorInfo}>
         <View style={styles.containerSec}>
           <ImageBackground source={ImagenExternaPerfil} style={styles.backgroundSec}></ImageBackground>
-          <Text style={[styles.text, {color: colorTexto}]}>Desarrollador Frontend</Text>
+          <Text style={styles[styleTexto]}>Desarrollador Frontend</Text>
         </View>
 
         <View style={styles.containerSec}>
-          <Text style={[styles.labelText, {color: colorTexto}]}>Ingrese un comentario</Text>
+
+          <Text style={styles[styleTexto]}>Ingrese un comentario</Text>
           <TextInput style={styles.input} placeholder='Escribe tu comentario' onChangeText={changeText}/>
+
           <TouchableOpacity style={styles.boton} onPress={alertaTexto}>
-            <Text style={{color: colorTexto}}>Contactar</Text>
+            <Text style={styles[styleTexto]}>Contactar</Text>
           </TouchableOpacity>
 
           <Pressable style={styles.boton} onPress={cambiarColorTexto}>
-            <Text style={{color: colorTexto}}>
+            <Text style={styles[styleTexto]}>
               Cambiar color texto
             </Text>
           </Pressable>
 
         </View>
+      </View>
 
       </ImageBackground>
     </SafeAreaView>
@@ -59,14 +117,16 @@ const styles = StyleSheet.create({
   },
   backgroundPrin: {
     flex: 1,
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'black'
   },
   text: {
-    backgroundColor: 'rgba(0,0,0,0.6)',
     borderRadius: 10,
     fontSize: 20,
     paddingHorizontal: 12,
     paddingVertical: 6,
+    color: 'black'
   },
   backgroundSec: {
     justifyContent: 'center',
@@ -77,10 +137,11 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     marginBottom: 0,
     borderColor: 'black',
-    borderWidth: 3
+    borderWidth: 3,
+    marginTop: 20
   },
   containerSec: {
-    alignItems: 'center'
+    alignItems: 'center',
   },
   statusBar: {
     backgroundColor: 'orange'
@@ -104,6 +165,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#4CAF50',
     padding: 10,
     borderRadius: 5,
-    marginTop: 20
+    marginTop: 20,
+    marginBottom: 20
+  },
+  text2: {
+    borderRadius: 10,
+    fontSize: 20,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    color: 'yellow',
+  },
+  contenedorInfo: {
+    backgroundColor: 'white',
+    borderRadius: 10,
   }
 });
