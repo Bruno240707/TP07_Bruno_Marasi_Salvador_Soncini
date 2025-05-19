@@ -88,7 +88,7 @@ export default function App() {
       <View style={styles.contenedorInfo}>
         <View style={styles.containerSec}>
           <ImageBackground source={ImagenExternaPerfil} style={styles.backgroundSec}></ImageBackground>
-          <Text style={styles[styleTexto]}>Desarrollador Frontend</Text>
+          <Text style={[styles[styleTexto], styles.font30]}>Desarrollador Frontend</Text>
         </View>
 
         <View style={styles.containerSec}>
@@ -149,6 +149,9 @@ const styles = StyleSheet.create({
   },
   statusBar: {
     backgroundColor: 'orange'
+  },
+  font30: {
+    fontSize: 30
   },
   labelText: {
     fontSize: 20,
