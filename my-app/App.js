@@ -78,7 +78,11 @@ export default function App() {
   return (
   <>
     <SafeAreaView style={styles.container}>
-      <StatusBar style="light" translucent backgroundColor="transparent"/>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor="#0066cc"
+        translucent={true}
+      />      
       <ImageBackground source={ImagenExterna} style={styles.backgroundPrin}>
 
       <View style={styles.contenedorInfo}>
@@ -96,9 +100,9 @@ export default function App() {
             <Text style={styles[styleTexto]}>Contactar</Text>
           </TouchableOpacity>
 
-          <Pressable style={styles.boton} onPress={cambiarColorTexto}>
+          <Pressable style={({ pressed }) => [styles.boton, { backgroundColor: pressed ? 'gray' : 'green' },]} onPress={cambiarColorTexto}>
             <Text style={styles[styleTexto]}>
-              Cambiar color texto
+              Cambiar color text
             </Text>
           </Pressable>
 
@@ -178,5 +182,9 @@ const styles = StyleSheet.create({
   contenedorInfo: {
     backgroundColor: 'white',
     borderRadius: 10,
+  },
+  botonPresionado: {
+    shadowOpacity: 10,
+    shadowColor: "green"
   }
 });
